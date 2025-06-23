@@ -7,7 +7,8 @@
 The RISC-V doubleword is 64-bits long, so we can represent $2^{64}$ different 64-bit patterns.
 0 to $2^{64}-1$.
 
-$$00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000$$
+00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+
 This is 8 bytes, 64 bits.
 
 64-bit binary numbers can be represented as:
@@ -125,18 +126,16 @@ The main point of this section is that we need to represent both positive and ne
 Two's complement gets its name from the rule that the unsigned sum of an n-bit number and its n-bit negative is $2^{n}$.
 
 ## One's Complement
-The most negative value by 100...000.
+- The most negative value by 100...000.
 
-The most positive value by 011...111.
+- The most positive value by 011...111.
 
-The inversion of every bit in a pattern: 0 to 1 and 1 to 0.
+- The inversion of every bit in a pattern: 0 to 1 and 1 to 0.
 
-It has two zeros, equal number of negatives and positives.
+- It has two zeros, equal number of negatives and positives.
 
 ## Biased Notation
-The most negative value by 000...000.
+- The most negative value by 000...000.
 
-The most positive value by 111...111.
-
-with 0 typically having the value 100...000.
+- The most positive value by 111...111 with 0 typically having the value 100...000.
 

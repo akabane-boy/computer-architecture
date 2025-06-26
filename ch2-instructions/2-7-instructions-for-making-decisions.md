@@ -73,7 +73,6 @@ Compilers frequently create branches and labels where they do not appear in the 
 This is one benefit of writing in high-level programming languages.
 
 ## Loops
-TODO: From HERE! 6/23/2025
 
 ### Example:(Compiling a while Loop in C)
 Here is a traditional loop in C:
@@ -122,6 +121,7 @@ A sequence of instructions without branches (except possibly at the end) and wit
 *branch to branch*
 
 
+TODO: From HERE! 6/25/2025
 
 
 

@@ -1,7 +1,9 @@
 # Instructions for Making Decisions
+----
 RISC-V assembly language includes *two* decision-making instructions, similar to an *if* statement with a *go to*.
 
 ## Conditional Statement
+----
 
 ### The first instruction beq
 ```assembly
@@ -73,6 +75,7 @@ Compilers frequently create branches and labels where they do not appear in the 
 This is one benefit of writing in high-level programming languages.
 
 ## Loops
+----
 
 ### Example:(Compiling a while Loop in C)
 Here is a traditional loop in C:
@@ -120,11 +123,95 @@ A sequence of instructions without branches (except possibly at the end) and wit
 
 *branch to branch*
 
+## Another test
+There are many other relationships between two numbers.
 
-TODO: From HERE! 6/25/2025
+For example, a *for* loop may want to test to see if the index variable is less than 0.
+The full set of comparisons is:
 
+- less than (<)
+- less than or equal (<=)
+- greater than (>)
+- greater than or equal (>)
+- equal (=)
+- not equal (!=)
 
+Comparison of bit patterns must deal with the dichotomy between
+signed and unsigned numbers.
 
+RISC-V provides instructions that handle both cases.
+
+*blt*: "branch if less than" compares the values in rs1 and rs2 and takes the branch 
+if the value in rs1 is smaller, when they are treated as two's complement.
+
+*bge*: "branch if greater than or equal" is the exact opposite case.
+
+*bltu*: "branch if less than, unsigned"
+
+*bgeu*: "branch if greater than or equal, unsigned"
+
+#### MIPS
+Set a register based upon the result of the comparison,
+then branch on the value in that temporary register with the *beq* or *bne* instructions.
+
+This approach can make the processor datapath slightly simpler,
+but it takes more instructions to express a program.
+
+#### ARM
+Keep extra bits that record what occurred during an instruction.
+
+These additional bits, called *condition codes* or *flags*, indicate,
+for example, if the result of an arithmetic operation was negative, or zero, or
+resulted in overflow.
+
+Conditional branches then use combinations of these condition codes to perform the desired test.
+
+If many instructions always set them, it will create dependencies that will make it
+difficult for pipelined execution (Chapter 4)
+
+## Bounds Check Shortcut
+----
+Treating signed numbers as if they were unsigned gives us a low-cost way of checking if
+0 <= x < y, which matches the index out-of-bounds check for arrays.
+
+An unsigned comparison of x < y checks if x is negative as well as if x is less than y.
+
+### Example
+Use this shortcut to reduce an index-out-of-bounds check:
+branch to *IndexOutOfBounds* if x20 >= x11 or if x20 is negative.
+
+### Answer
+The checking code just uses unsigned greater than or equal to do both checks:
+```assembly
+bgeu x20, x11, IndexOutOfBounds // if x20 >= x11 or x20 <0,
+                                // go to IndexOutOfBounds
+```
+
+What here saying is, x11 has the array's length and x20 needs to be checked.
+
+x20 should not greater than or equal to x11 as well as should not be negative.
+
+Hence, *bgeu* can check those two cases in one instruction.
+
+## Case/Switch Statement
+----
+**branch address table** 
+Also called **branch table**. A table of addresses of alternative instruction sequences.
+
+The simplest way to implement *switch* is via a sequence of conditional tests (if-else chain)
+
+To be more efficient, the program needs only to index into the branch table
+and then branch to the appropriate sequence.
+
+The branch table is just an array of doublewords containing addresses that correspond to labels
+in the code.
+
+In RISC-V, the jump-and-link register instruction (*jalr*) serves this purpose.
+
+### NOTES:
+Although there are many statements for decisions and loops in programming languages
+like C and Java, the bedrock statement that implements them at the instruction set level
+is the **conditional branch**.
 
 
 
